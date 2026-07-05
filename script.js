@@ -694,19 +694,41 @@ if (!reduceMotion && matchMedia("(hover: hover)").matches) {
   });
 }
 
-/* Botones magnéticos */
+/* Botones magnéticos (posición base cacheada + interpolación suave) */
 function initMagnetic(scope = document) {
   if (reduceMotion || !matchMedia("(hover: hover)").matches) return;
   $$("[data-magnetic]", scope).forEach((el) => {
     if (el.dataset.magInit) return;
     el.dataset.magInit = "1";
-    el.addEventListener("mousemove", (e) => {
+    let rect = null, tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+    const render = () => {
+      cx += (tx - cx) * 0.16;
+      cy += (ty - cy) * 0.16;
+      el.style.transform = `translate(${cx.toFixed(2)}px, ${cy.toFixed(2)}px)`;
+      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
+        raf = requestAnimationFrame(render);
+      } else {
+        raf = null;
+        if (tx === 0 && ty === 0) el.style.transform = "";
+      }
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(render); };
+
+    el.addEventListener("mouseenter", () => {
+      // Rect base sin el desplazamiento actual: se mide UNA vez por hover
       const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) * 0.25;
-      const y = (e.clientY - r.top - r.height / 2) * 0.35;
-      el.style.transform = `translate(${x}px, ${y}px)`;
+      rect = { left: r.left - cx, top: r.top - cy, width: r.width, height: r.height };
     });
-    el.addEventListener("mouseleave", () => (el.style.transform = ""));
+    el.addEventListener("mousemove", (e) => {
+      if (!rect) return;
+      tx = (e.clientX - rect.left - rect.width / 2) * 0.18;
+      ty = (e.clientY - rect.top - rect.height / 2) * 0.22;
+      kick();
+    });
+    el.addEventListener("mouseleave", () => {
+      rect = null; tx = 0; ty = 0; kick();
+    });
   });
 }
 initMagnetic();
