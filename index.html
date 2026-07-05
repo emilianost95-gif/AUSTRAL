@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AUSTRAL — Ropa esencial diseñada en el sur del mundo</title>
+  <meta name="description" content="AUSTRAL. Prendas esenciales de diseño atemporal, confeccionadas con materiales nobles en el sur del mundo. Colección permanente, ediciones limitadas y envíos a todo Chile y Argentina." />
+  <meta property="og:title" content="AUSTRAL — Ropa esencial" />
+  <meta property="og:description" content="Prendas esenciales de diseño atemporal, confeccionadas en el sur del mundo." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "name": "AUSTRAL",
+    "description": "Ropa esencial diseñada en el sur del mundo.",
+    "areaServed": ["CL", "AR"]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Cursor personalizado -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- ======================= HEADER ======================= -->
+  <header class="header" id="header">
+    <nav class="header__inner" aria-label="Principal">
+      <button class="header__burger" id="burger" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+
+      <ul class="header__menu" id="menu">
+        <li><a href="#catalogo" data-magnetic>Tienda</a></li>
+        <li><a href="#colecciones" data-magnetic>Colecciones</a></li>
+        <li><a href="#lookbook" data-magnetic>Lookbook</a></li>
+      </ul>
+
+      <a href="#inicio" class="header__logo" aria-label="AUSTRAL, inicio">AUSTRAL<sup>®</sup></a>
+
+      <div class="header__actions">
+        <button class="icon-btn" id="searchOpen" aria-label="Buscar" data-magnetic>
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Favoritos" data-magnetic>
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-10-9.3C.5 8 2.5 4.5 6 4.5c2.2 0 3.6 1.2 6 3.8 2.4-2.6 3.8-3.8 6-3.8 3.5 0 5.5 3.5 4 7.2C19.5 16.3 12 21 12 21z"/></svg>
+          <span class="icon-btn__count" id="wishCount" hidden>0</span>
+        </button>
+        <button class="icon-btn" id="cartOpen" aria-label="Abrir carrito" data-magnetic>
+          <svg viewBox="0 0 24 24"><path d="M6 7h12l1 14H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="icon-btn__count" id="cartCount" hidden>0</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ======================= HERO ======================= -->
+    <section class="hero" aria-label="Presentación">
+      <div class="hero__media" id="heroMedia">
+        <div class="hero__panel hero__panel--a"></div>
+        <div class="hero__panel hero__panel--b"></div>
+        <div class="hero__grain" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__eyebrow reveal">Colección 01 · Invierno 2026</p>
+        <h1 class="hero__title">
+          <span class="line"><span>Esencial,</span></span>
+          <span class="line"><span>no <em>mínimo.</em></span></span>
+        </h1>
+        <p class="hero__sub reveal">Prendas atemporales confeccionadas con lana merino,
+          algodón orgánico y tiempo. Diseñadas en el sur del mundo.</p>
+        <a href="#catalogo" class="btn btn--primary reveal" data-magnetic>
+          <span>Explorar la colección</span>
+        </a>
+      </div>
+
+      <a href="#colecciones" class="hero__scroll" aria-label="Bajar a colecciones">
+        <span class="hero__scroll-line"></span>
+        <span class="hero__scroll-text">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ======================= COLECCIONES ======================= -->
+    <section class="section" id="colecciones" aria-labelledby="coleccionesTitle">
+      <div class="section__head">
+        <p class="section__eyebrow reveal">Colecciones</p>
+        <h2 class="section__title reveal" id="coleccionesTitle">Tres formas<br/>de vestir el frío.</h2>
+      </div>
+
+      <div class="collections">
+        <a href="#catalogo" class="collection reveal" data-filter="abrigo">
+          <div class="collection__media tone--carbon"><span class="collection__num">I</span></div>
+          <div class="collection__info">
+            <h3>Abrigo</h3>
+            <p>Lana merino · 8 piezas</p>
+          </div>
+        </a>
+        <a href="#catalogo" class="collection reveal" data-filter="capa-media">
+          <div class="collection__media tone--piedra"><span class="collection__num">II</span></div>
+          <div class="collection__info">
+            <h3>Capa media</h3>
+            <p>Punto y felpa · 6 piezas</p>
+          </div>
+        </a>
+        <a href="#catalogo" class="collection reveal" data-filter="base">
+          <div class="collection__media tone--arena"><span class="collection__num">III</span></div>
+          <div class="collection__info">
+            <h3>Base</h3>
+            <p>Algodón orgánico · 10 piezas</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ======================= CATÁLOGO ======================= -->
+    <section class="section section--catalog" id="catalogo" aria-labelledby="catalogoTitle">
+      <div class="section__head">
+        <p class="section__eyebrow reveal">La tienda</p>
+        <h2 class="section__title reveal" id="catalogoTitle">Colección<br/>permanente.</h2>
+      </div>
+
+      <div class="filters reveal" role="group" aria-label="Filtrar productos">
+        <div class="filters__group" id="filterCat">
+          <button class="chip is-active" data-cat="todo">Todo</button>
+          <button class="chip" data-cat="abrigo">Abrigo</button>
+          <button class="chip" data-cat="capa-media">Capa media</button>
+          <button class="chip" data-cat="base">Base</button>
+          <button class="chip" data-cat="accesorio">Accesorios</button>
+        </div>
+        <div class="filters__group filters__group--right">
+          <label class="filters__select">
+            <span class="visually-hidden">Ordenar por</span>
+            <select id="sortSelect">
+              <option value="destacado">Destacados</option>
+              <option value="precio-asc">Precio: menor a mayor</option>
+              <option value="precio-desc">Precio: mayor a menor</option>
+              <option value="nuevo">Novedades</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid" id="productGrid" aria-live="polite"></div>
+      <p class="grid__empty" id="gridEmpty" hidden>No hay productos para este filtro. Probá con otra categoría.</p>
+    </section>
+
+    <!-- ======================= LOOKBOOK ======================= -->
+    <section class="lookbook" id="lookbook" aria-labelledby="lookbookTitle">
+      <div class="lookbook__media tone--humo" id="lookbookMedia">
+        <div class="hero__grain" aria-hidden="true"></div>
+      </div>
+      <div class="lookbook__content">
+        <p class="section__eyebrow reveal">Lookbook · 01</p>
+        <h2 class="section__title reveal" id="lookbookTitle">El sur<br/>como origen.</h2>
+        <p class="lookbook__text reveal">Cada temporada nace de un paisaje. Esta, de la
+          cordillera en junio: carbón, piedra, arena y humo. Cuatro tonos,
+          veinticuatro piezas, cero apuro.</p>
+        <a href="#catalogo" class="btn btn--ghost reveal" data-magnetic><span>Ver las piezas</span></a>
+      </div>
+    </section>
+
+    <!-- ======================= VALORES ======================= -->
+    <section class="section values" aria-label="Nuestros principios">
+      <div class="values__grid">
+        <article class="value reveal">
+          <h3>Materiales nobles</h3>
+          <p>Lana merino certificada, algodón orgánico GOTS y botones de corozo. Nada sintético donde no hace falta.</p>
+        </article>
+        <article class="value reveal">
+          <h3>Producción lenta</h3>
+          <p>Tiradas cortas confeccionadas en talleres de Chile y Argentina. Cuando una pieza se agota, se agota.</p>
+        </article>
+        <article class="value reveal">
+          <h3>Garantía de por vida</h3>
+          <p>Reparamos cualquier prenda AUSTRAL sin costo, para siempre. El lujo también es que dure.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= NEWSLETTER ======================= -->
+    <section class="newsletter" aria-labelledby="newsTitle">
+      <h2 class="newsletter__title reveal" id="newsTitle">Primero en tu casilla,<br/><em>después en la tienda.</em></h2>
+      <p class="newsletter__sub reveal">Acceso anticipado a lanzamientos y ediciones limitadas. Un correo al mes, nada más.</p>
+      <div class="newsletter__form reveal">
+        <input type="email" id="newsEmail" placeholder="tu@correo.com" aria-label="Tu correo electrónico" />
+        <button class="btn btn--primary" id="newsBtn" data-magnetic><span>Suscribirme</span></button>
+      </div>
+      <p class="newsletter__ok" id="newsOk" hidden>Listo. Te escribimos pronto.</p>
+    </section>
+
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="footer">
+    <div class="footer__top">
+      <p class="footer__logo">AUSTRAL<sup>®</sup></p>
+      <nav class="footer__cols" aria-label="Pie de página">
+        <div>
+          <h4>Tienda</h4>
+          <a href="#catalogo">Colección permanente</a>
+          <a href="#colecciones">Colecciones</a>
+          <a href="#lookbook">Lookbook</a>
+        </div>
+        <div>
+          <h4>Ayuda</h4>
+          <a href="#">Guía de talles</a>
+          <a href="#">Envíos y cambios</a>
+          <a href="#">Cuidado de prendas</a>
+        </div>
+        <div>
+          <h4>Seguinos</h4>
+          <a href="#" rel="noopener">Instagram</a>
+          <a href="#" rel="noopener">Pinterest</a>
+          <a href="#" rel="noopener">Spotify</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 AUSTRAL. Diseñado en el sur del mundo.</p>
+      <p>Chillán Viejo — Mendoza</p>
+    </div>
+  </footer>
+
+  <!-- ======================= BUSCADOR FULLSCREEN ======================= -->
+  <div class="search" id="search" role="dialog" aria-modal="true" aria-label="Buscador" hidden>
+    <button class="search__close icon-btn" id="searchClose" aria-label="Cerrar buscador">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="search__inner">
+      <input type="search" id="searchInput" class="search__input" placeholder="Buscar una pieza…" aria-label="Buscar producto" autocomplete="off" />
+      <div class="search__meta">
+        <p class="search__hint" id="searchHint">Populares: abrigo, merino, gorro, camisa</p>
+      </div>
+      <div class="search__results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <!-- ======================= CARRITO (drawer) ======================= -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="cart" id="cart" role="dialog" aria-modal="true" aria-label="Carrito de compras" hidden>
+    <header class="cart__head">
+      <h2>Carrito <span id="cartHeadCount"></span></h2>
+      <button class="icon-btn" id="cartClose" aria-label="Cerrar carrito">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="cart__items" id="cartItems"></div>
+    <p class="cart__empty" id="cartEmpty">Tu carrito está vacío.<br/>Las buenas prendas esperan.</p>
+
+    <footer class="cart__foot" id="cartFoot" hidden>
+      <div class="cart__coupon">
+        <input type="text" id="couponInput" placeholder="Cupón (probá AUSTRAL10)" aria-label="Código de cupón" />
+        <button class="btn btn--ghost btn--sm" id="couponBtn"><span>Aplicar</span></button>
+      </div>
+      <div class="cart__row" id="discountRow" hidden><span>Descuento</span><span id="cartDiscount"></span></div>
+      <div class="cart__row"><span>Envío estimado</span><span id="cartShipping">Gratis</span></div>
+      <div class="cart__row cart__row--total"><span>Subtotal</span><span id="cartTotal">$0</span></div>
+      <button class="btn btn--primary btn--full" id="checkoutBtn" data-magnetic><span>Finalizar compra</span></button>
+      <p class="cart__note">Envío gratis sobre $60.000 · Cambios sin costo por 30 días</p>
+    </footer>
+  </aside>
+
+  <!-- ======================= MODAL DE PRODUCTO ======================= -->
+  <div class="product-modal" id="productModal" role="dialog" aria-modal="true" aria-label="Detalle de producto" hidden>
+    <button class="product-modal__close icon-btn" id="modalClose" aria-label="Cerrar detalle">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="product-modal__inner" id="modalInner"><!-- render dinámico --></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
