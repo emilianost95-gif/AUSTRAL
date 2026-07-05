@@ -155,6 +155,40 @@ function mediaLabel(text, tone) {
   return `<span class="card__silhouette" style="color:${inkFor(tone)}">${text}</span>`;
 }
 
+/* ---------- Fotografías (Unsplash, licencia libre para uso comercial) ----------
+   Cards del catálogo: prenda sola (consistencia de grid).
+   Colecciones / lookbook / hero: modelo real (emoción editorial).
+   Si una foto falla, el <img> se elimina y queda la ilustración SVG de respaldo. */
+const UIMG = (id, w = 900) =>
+  `https://images.unsplash.com/${id}?q=80&w=${w}&auto=format&fit=crop`;
+
+const PHOTOS = {
+  "abrigo-cordillera":   { main: "photo-1591047139829-d91aecb6caea", alt: "photo-1539533113208-f6df8cc8b543" },
+  "parka-austral":       { main: "photo-1698133468659-5ff0a0b02dda", alt: "photo-1617391258031-f8d80b22fb35" },
+  "blazer-piedra":       { main: "photo-1592343516109-362f7bd871aa", alt: "photo-1629922948950-08e61289569b" },
+  "chaqueton-humo":      { main: "photo-1619603364904-c0498317e145", alt: "photo-1619603364937-8d7af41ef206" },
+  "sweater-merino":      { main: "photo-1620799140408-edc6dcb6d633", alt: "photo-1601379327928-bedfaf9da2d0" },
+  "medio-cierre-carbon": { main: "photo-1631541909061-71e349d1f203", alt: "photo-1611911813383-67769b37a149" },
+  "cardigan-oliva":      { main: "photo-1516762689617-e1cffcef479d", alt: "photo-1581497396202-5645e76a3a8e" },
+  "polar-liviano":       { main: "photo-1643015862949-5c8d15a4242e", alt: "photo-1574201635302-388dd92a4c3f" },
+  "camisa-oxford":       { main: "photo-1579664531470-ac357f8f8e2b", alt: "photo-1624222244232-5f1ae13bbd53" },
+  "camiseta-esencial":   { main: "photo-1558769132-cb1aea458c5e",    alt: "photo-1517502166878-35c93a0072f0" },
+  "pantalon-sastre":     { main: "photo-1718252540617-6ecda2b56b57", alt: "photo-1718252540511-e958742e4165" },
+  "gorro-merino":        { main: "photo-1618354691792-d1d42acfd860", alt: "photo-1664289321749-07316ab5e374" },
+};
+
+const SCENES = {
+  "abrigo":     "photo-1539533018447-63fcce2678e3",
+  "capa-media": "photo-1610901157620-340856d0a50f",
+  "base":       "photo-1627130697816-4d71dbfe6a5b",
+  "lookbook":   "photo-1613728455120-d00493b5e77e",
+};
+
+function photoTag(id, alt, w = 900) {
+  return `<img class="media-photo" loading="lazy" decoding="async"
+    src="${UIMG(id, w)}" alt="${alt}" onerror="this.remove()">`;
+}
+
 const COUPONS = { AUSTRAL10: 0.10, SUR15: 0.15 };
 const FREE_SHIPPING = 60000;
 
@@ -191,10 +225,12 @@ function cardMedia(p) {
   return `
     <div class="card__img tone--${p.tone}">
       ${garmentSvg(p, p.tone)}
+      ${photoTag(PHOTOS[p.id].main, p.name)}
     </div>
     <div class="card__img-alt tone--${p.toneAlt}">
       ${fabricSvg(p.toneAlt)}
-      ${mediaLabel("Detalle del tejido", p.toneAlt)}
+      ${photoTag(PHOTOS[p.id].alt, `${p.name} — vista alternativa`)}
+      ${mediaLabel("Vista alternativa", p.toneAlt)}
     </div>`;
 }
 
@@ -331,7 +367,7 @@ function renderCart() {
       const p = byId(item.id);
       return `
       <div class="cart-item">
-        <div class="cart-item__thumb tone--${p.tone}">${garmentSvg(p, p.tone)}</div>
+        <div class="cart-item__thumb tone--${p.tone}">${garmentSvg(p, p.tone)}${photoTag(PHOTOS[p.id].main, p.name, 200)}</div>
         <div>
           <p class="cart-item__name">${p.name}</p>
           <p class="cart-item__meta">Talle ${item.size}</p>
@@ -494,11 +530,12 @@ function openProduct(id) {
     <div class="pm__gallery">
       <div class="pm__main tone--${p.tone}" id="pmMain">
         ${garmentSvg(p, p.tone)}
+        ${photoTag(PHOTOS[p.id].main, p.name, 1200)}
         ${mediaLabel(p.name, p.tone)}
       </div>
       <div class="pm__thumbs">
-        <button class="pm__thumb tone--${p.tone} is-active" data-tone="${p.tone}" data-view="garment" aria-label="Vista principal">${garmentSvg(p, p.tone)}</button>
-        <button class="pm__thumb tone--${p.toneAlt}" data-tone="${p.toneAlt}" data-view="fabric" aria-label="Detalle del tejido">${fabricSvg(p.toneAlt)}</button>
+        <button class="pm__thumb tone--${p.tone} is-active" data-img="${PHOTOS[p.id].main}" data-label="${p.name}" aria-label="Vista principal">${photoTag(PHOTOS[p.id].main, "", 200)}</button>
+        <button class="pm__thumb tone--${p.toneAlt}" data-img="${PHOTOS[p.id].alt}" data-label="Vista alternativa" aria-label="Vista alternativa">${photoTag(PHOTOS[p.id].alt, "", 200)}</button>
       </div>
     </div>
 
@@ -568,12 +605,10 @@ function openProduct(id) {
     t.addEventListener("click", () => {
       $$(".pm__thumb").forEach((x) => x.classList.remove("is-active"));
       t.classList.add("is-active");
-      const tone = t.dataset.tone;
-      const isFabric = t.dataset.view === "fabric";
-      $("#pmMain").className = `pm__main tone--${tone}`;
       $("#pmMain").innerHTML =
-        (isFabric ? fabricSvg(tone) : garmentSvg(p, tone)) +
-        mediaLabel(isFabric ? "Detalle del tejido" : p.name, tone);
+        garmentSvg(p, p.tone) +
+        photoTag(t.dataset.img, p.name, 1200) +
+        mediaLabel(t.dataset.label, p.tone);
     })
   );
   $("#pmAdd").addEventListener("click", () => {
@@ -750,12 +785,24 @@ renderGrid();
 renderCart();
 if (coupon) $("#couponInput").value = coupon;
 
-/* Ilustraciones en colecciones y lookbook */
+/* Fotos editoriales en colecciones y lookbook (SVG queda como respaldo) */
 const COLLECTION_TYPES = { "abrigo": "coat", "capa-media": "sweater", "base": "shirt" };
+const COLLECTION_ALTS = {
+  "abrigo": "Modelo con abrigo de lana — colección Abrigo",
+  "capa-media": "Modelo con sweater de punto — colección Capa media",
+  "base": "Modelo con camisa y pantalón claros — colección Base",
+};
 $$(".collection").forEach((c) => {
   const media = $(".collection__media", c);
   const tone = [...media.classList].find((x) => x.startsWith("tone--"))?.slice(6);
-  const type = COLLECTION_TYPES[c.dataset.filter];
-  if (tone && type) media.insertAdjacentHTML("afterbegin", drawGarment(type, tone));
+  const key = c.dataset.filter;
+  if (!tone || !COLLECTION_TYPES[key]) return;
+  media.insertAdjacentHTML(
+    "afterbegin",
+    drawGarment(COLLECTION_TYPES[key], tone) + photoTag(SCENES[key], COLLECTION_ALTS[key])
+  );
 });
-$("#lookbookMedia")?.insertAdjacentHTML("afterbegin", drawGarment("overcoat", "humo"));
+$("#lookbookMedia")?.insertAdjacentHTML(
+  "afterbegin",
+  drawGarment("overcoat", "humo") + photoTag(SCENES.lookbook, "Modelo con abrigo negro — lookbook 01", 1200)
+);
