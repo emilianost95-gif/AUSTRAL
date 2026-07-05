@@ -136,21 +136,6 @@ function drawGarment(type, tone) {
 
 function garmentSvg(p, tone) { return drawGarment(TYPE[p.id], tone); }
 
-function fabricSvg(tone) {
-  const ink = inkFor(tone);
-  let warp = "";
-  for (let i = -240; i <= 240; i += 16)
-    warp += `<line x1="${i}" y1="260" x2="${i + 260}" y2="0"/>`;
-  let weft = "";
-  for (let y = 18; y < 260; y += 34)
-    weft += `<line x1="0" y1="${y}" x2="200" y2="${y}"/>`;
-  return `<svg class="garment garment--fabric" viewBox="0 0 200 260"
-    preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <g stroke="${ink}" stroke-width="1.3" opacity="0.5">${warp}</g>
-    <g stroke="${ink}" stroke-width="1" opacity="0.22">${weft}</g>
-  </svg>`;
-}
-
 function mediaLabel(text, tone) {
   return `<span class="card__silhouette" style="color:${inkFor(tone)}">${text}</span>`;
 }
@@ -228,7 +213,7 @@ function cardMedia(p) {
       ${photoTag(PHOTOS[p.id].main, p.name)}
     </div>
     <div class="card__img-alt tone--${p.toneAlt}">
-      ${fabricSvg(p.toneAlt)}
+      ${garmentSvg(p, p.toneAlt)}
       ${photoTag(PHOTOS[p.id].alt, `${p.name} — vista alternativa`)}
       ${mediaLabel("Vista alternativa", p.toneAlt)}
     </div>`;
@@ -673,13 +658,19 @@ menu.addEventListener("click", (e) => {
    HEADER INTELIGENTE · CURSOR · MAGNETIC
    ========================================================================== */
 const header = $("#header");
+const toTop = $("#toTop");
 let lastY = 0;
 window.addEventListener("scroll", () => {
   const y = window.scrollY;
   header.classList.toggle("is-scrolled", y > 40);
   header.classList.toggle("is-hidden", y > 400 && y > lastY);
+  toTop.classList.toggle("is-visible", y > 600);
   lastY = y;
 }, { passive: true });
+
+toTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+});
 
 /* Cursor personalizado */
 const cursor = $("#cursor");

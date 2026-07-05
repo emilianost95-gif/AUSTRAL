@@ -59,20 +59,32 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   outline-offset: 3px;
 }
 
-/* ---------- Cursor personalizado ---------- */
+/* ---------- Cursor personalizado (anillo elegante) ---------- */
 .cursor {
   position: fixed; top: 0; left: 0; z-index: 9999;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--negro);
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid rgba(14, 13, 11, 0.35);
+  background: transparent;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out),
-              background 0.25s, opacity 0.3s;
+  transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out),
+              border-color 0.3s, background 0.3s, opacity 0.3s;
   opacity: 0;
-  mix-blend-mode: difference;
+}
+.cursor::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--negro);
+  transform: translate(-50%, -50%);
+  transition: background 0.3s;
 }
 body.has-cursor .cursor { opacity: 1; }
-.cursor.is-hover { width: 44px; height: 44px; background: var(--blanco); }
+.cursor.is-hover {
+  width: 52px; height: 52px;
+  border-color: var(--champagne);
+  background: var(--champagne-suave);
+}
+.cursor.is-hover::after { background: var(--champagne); }
 @media (hover: none) { .cursor { display: none; } }
 
 /* ---------- Botones ---------- */
@@ -399,10 +411,6 @@ body.has-cursor .cursor { opacity: 1; }
 .garment {
   width: 56%; height: auto; max-height: 80%;
   position: relative; z-index: 1;
-}
-.garment--fabric {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; max-height: none;
 }
 
 /* Fotografías reales */
@@ -821,6 +829,56 @@ body.has-cursor .cursor { opacity: 1; }
   transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
 }
 .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Botones flotantes ---------- */
+.float-btn {
+  position: fixed; right: 22px; z-index: 90;
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--negro); color: var(--blanco);
+  box-shadow: 0 10px 30px rgba(14, 13, 11, 0.22);
+  transition: background 0.35s var(--ease-out), color 0.35s,
+              box-shadow 0.35s, opacity 0.4s var(--ease-out),
+              translate 0.4s var(--ease-out);
+}
+.float-btn:hover {
+  background: var(--champagne); color: var(--blanco);
+  box-shadow: 0 14px 36px rgba(179, 148, 106, 0.4);
+}
+.float-btn svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.float-btn--ws { bottom: 22px; }
+.float-btn--ws svg { width: 24px; height: 24px; }
+.float-btn--top {
+  bottom: 86px;
+  background: var(--blanco); color: var(--negro);
+  box-shadow: 0 8px 26px rgba(14, 13, 11, 0.14),
+              inset 0 0 0 1px var(--gris-2);
+  opacity: 0; translate: 0 12px;
+  pointer-events: none;
+}
+.float-btn--top.is-visible {
+  opacity: 1; translate: 0 0;
+  pointer-events: auto;
+}
+.float-btn--top:hover { color: var(--blanco); }
+@media (max-width: 640px) {
+  .float-btn { right: 16px; width: 48px; height: 48px; }
+  .float-btn--top { bottom: 78px; }
+}
+
+/* ---------- Firma del desarrollador ---------- */
+.footer__dev a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s;
+}
+.footer__dev a:hover { color: var(--champagne); }
 
 /* ---------- Reveal (estado inicial; GSAP anima) ---------- */
 .reveal { opacity: 0; transform: translateY(28px); }
