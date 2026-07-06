@@ -6,7 +6,7 @@
 "use strict";
 
 /* ---------- Datos ---------- */
-// Los tonos son placeholders editoriales. Para producción: reemplazar
+// Los tonos son placehsolders editoriales. Para producción: reemplazar
 // tone por rutas de imagen y renderizar <img loading="lazy"> en cardMedia().
 const PRODUCTS = [
   { id: "abrigo-cordillera", name: "Abrigo Cordillera", cat: "abrigo", price: 189900, oldPrice: null, tag: "Nuevo", tone: "carbon", toneAlt: "humo", material: "Lana merino 100%", desc: "Abrigo recto de lana merino con entretela térmica y botones de corozo. Corte relajado que abriga sin abultar.", sizes: ["XS","S","M","L","XL"], colors: ["#2b2a28","#a9a49b"], stock: 6, featured: 10 },
@@ -180,8 +180,8 @@ const SHIPPING_COST = 4990;
 
 /* ---------- Configuración del checkout ---------- */
 const CHECKOUT = {
-  whatsapp: "56912345678", // ← Tu número con código de país, SIN "+" ni espacios
-  sheetsEndpoint: "",      // ← URL del Apps Script (ver instrucciones-sheets.md). Vacío = solo WhatsApp
+  whatsapp: "56926432541",
+  sheetsEndpoint: "https://script.google.com/macros/s/AKfycbxT9dQ.../exec",
 };
 
 /* ---------- Helpers ---------- */
