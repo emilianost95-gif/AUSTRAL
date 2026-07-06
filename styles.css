@@ -704,6 +704,14 @@ body.has-cursor .cursor { opacity: 1; }
   border: 1px solid var(--gris-2); border-radius: var(--radius);
 }
 .cart__coupon input:focus { outline: none; border-color: var(--negro); }
+.cart__buyer { display: grid; gap: 8px; margin-bottom: 14px; }
+.cart__buyer input {
+  padding: 11px 14px;
+  font: inherit; font-size: 12.5px;
+  border: 1px solid var(--gris-2); border-radius: var(--radius);
+  background: var(--blanco);
+}
+.cart__buyer input:focus { outline: none; border-color: var(--negro); }
 .cart__row {
   display: flex; justify-content: space-between;
   font-size: 13px; color: var(--tinta);

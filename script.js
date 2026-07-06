@@ -176,6 +176,13 @@ function photoTag(id, alt, w = 900) {
 
 const COUPONS = { AUSTRAL10: 0.10, SUR15: 0.15 };
 const FREE_SHIPPING = 60000;
+const SHIPPING_COST = 4990;
+
+/* ---------- Configuración del checkout ---------- */
+const CHECKOUT = {
+  whatsapp: "56912345678", // ← Tu número con código de país, SIN "+" ni espacios
+  sheetsEndpoint: "",      // ← URL del Apps Script (ver instrucciones-sheets.md). Vacío = solo WhatsApp
+};
 
 /* ---------- Helpers ---------- */
 const $ = (s, c = document) => c.querySelector(s);
@@ -344,6 +351,10 @@ function renderCart() {
   badge.hidden = count === 0;
   badge.textContent = count;
   $("#cartHeadCount").textContent = count ? `(${count})` : "";
+  const lastOrder = storage.get("austral_last_order", null);
+  $("#cartEmpty").innerHTML = lastOrder
+    ? `Tu carrito está vacío.<br/>Último pedido: <strong>${lastOrder}</strong>`
+    : "Tu carrito está vacío.<br/>Las buenas prendas esperan.";
   $("#cartEmpty").style.display = cart.length ? "none" : "grid";
   $("#cartFoot").hidden = cart.length === 0;
 
@@ -405,8 +416,103 @@ $("#couponBtn").addEventListener("click", () => {
   }
 });
 
+/* ---------- Checkout: WhatsApp + registro en Sheets ---------- */
+function orderCode() {
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  // Sin 0/O/1/I/L para evitar confusiones al dictarlo
+  const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  const rand = Array.from({ length: 4 }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
+  return `AUS-${dd}${mm}-${rand}`;
+}
+
+function buildOrder(nombre, email) {
+  const { subtotal, discount, total } = cartTotals();
+  const envio = total >= FREE_SHIPPING || total === 0 ? 0 : SHIPPING_COST;
+  return {
+    code: orderCode(),
+    fecha: new Date().toISOString(),
+    nombre,
+    email: email || "",
+    items: cart.map((i) => {
+      const p = byId(i.id);
+      return {
+        producto: p.name, talle: i.size, cantidad: i.qty,
+        precio: p.price, subtotal: p.price * i.qty,
+      };
+    }),
+    subtotal,
+    cupon: coupon || "",
+    descuento: discount,
+    envio,
+    total: total + envio,
+  };
+}
+
+function waMessage(o) {
+  const items = o.items
+    .map((it) => `• ${it.producto} — Talle ${it.talle} ×${it.cantidad} — ${money(it.subtotal)}`)
+    .join("\n");
+  return [
+    "Hola AUSTRAL, quiero confirmar mi pedido:",
+    `Pedido *${o.code}*`,
+    "",
+    items,
+    "",
+    o.cupon ? `Cupón ${o.cupon}: −${money(o.descuento)}` : null,
+    `Envío: ${o.envio ? money(o.envio) : "Gratis"}`,
+    `*Total: ${money(o.total)}*`,
+    "",
+    `Mi nombre: ${o.nombre}`,
+  ].filter((l) => l !== null).join("\n");
+}
+
 $("#checkoutBtn").addEventListener("click", () => {
-  toast("Demo: acá conectás tu pasarela de pago (Webpay / MercadoPago)");
+  if (!cart.length) return;
+  const nombre = $("#buyerName").value.trim();
+  if (!nombre) {
+    toast("Escribí tu nombre para el pedido");
+    $("#buyerName").focus();
+    return;
+  }
+  const email = $("#buyerMail").value.trim();
+  if (email && !email.includes("@")) {
+    toast("Ese email no parece válido");
+    $("#buyerMail").focus();
+    return;
+  }
+
+  const order = buildOrder(nombre, email);
+
+  // 1) Registro en Google Sheets (fire-and-forget; no bloquea el pedido)
+  if (CHECKOUT.sheetsEndpoint) {
+    fetch(CHECKOUT.sheetsEndpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(order),
+    }).catch(() => {});
+  }
+
+  // 2) WhatsApp con el pedido preescrito
+  window.open(
+    `https://wa.me/${CHECKOUT.whatsapp}?text=${encodeURIComponent(waMessage(order))}`,
+    "_blank",
+    "noopener"
+  );
+
+  // 3) Cierre: guardar código, vaciar carrito, confirmar
+  storage.set("austral_last_order", order.code);
+  cart = [];
+  coupon = null;
+  $("#buyerName").value = "";
+  $("#buyerMail").value = "";
+  $("#couponInput").value = "";
+  saveCart();
+  toast(`Pedido ${order.code} listo — envialo por WhatsApp para confirmarlo`);
 });
 
 /* Abrir / cerrar drawer */

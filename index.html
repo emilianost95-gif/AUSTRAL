@@ -266,7 +266,11 @@
       <div class="cart__row" id="discountRow" hidden><span>Descuento</span><span id="cartDiscount"></span></div>
       <div class="cart__row"><span>Envío estimado</span><span id="cartShipping">Gratis</span></div>
       <div class="cart__row cart__row--total"><span>Subtotal</span><span id="cartTotal">$0</span></div>
-      <button class="btn btn--primary btn--full" id="checkoutBtn" data-magnetic><span>Finalizar compra</span></button>
+      <div class="cart__buyer">
+        <input type="text" id="buyerName" placeholder="Tu nombre *" aria-label="Tu nombre" autocomplete="name" />
+        <input type="email" id="buyerMail" placeholder="Email (opcional, para confirmación)" aria-label="Tu email" autocomplete="email" />
+      </div>
+      <button class="btn btn--primary btn--full" id="checkoutBtn" data-magnetic><span>Confirmar pedido por WhatsApp</span></button>
       <p class="cart__note">Envío gratis sobre $60.000 · Cambios sin costo por 30 días</p>
     </footer>
   </aside>
